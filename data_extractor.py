@@ -12,6 +12,7 @@ def extract_features_and_labels(csv_file_info, csv_file_stats):
     player_stats_cleaned = player_stats.drop(columns = ['seas_id','player_id', 'pos', 'lg'])
 
     data = pd.merge(player_stats_cleaned,player_info_cleaned,on='player',how='inner')
+    data = data.dropna()
     data = data.sort_values(by=['player', 'season'])
 
     grouped = data.groupby('player')
