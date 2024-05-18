@@ -30,7 +30,7 @@ best_val_loss = float('inf')
 patience_counter = 0
 
 # Training loop
-num_epochs = 10000
+num_epochs = 1000
 for epoch in range(num_epochs):
     model.train()  # Set the model to training mode
     for inputs, labels in train_loader:
@@ -81,9 +81,9 @@ def to_string_predictions(tensor):
     print("position:", tensor[9])
 
 def to_string_other(tensor):
-    print("pts:",tensor[0])
+    print("reb:",tensor[0])
     print("assist:",tensor[1])
-    print("reb:",tensor[2])
+    print("points:",tensor[2])
     
 model.eval()
 all_predictions = []
