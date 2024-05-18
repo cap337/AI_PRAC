@@ -7,6 +7,7 @@ from data_extractor import extract_features_and_labels
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+from sklearn.metrics import mean_absolute_error
 
 # Initialize the model, dataloaders, and data
 model = OurModel()
@@ -30,7 +31,9 @@ best_val_loss = float('inf')
 patience_counter = 0
 
 # Training loop
-num_epochs = 1000
+num_epochs = 10000
+epoch_enum = []
+validation_errors = []
 for epoch in range(num_epochs):
     model.train()  # Set the model to training mode
     for inputs, labels in train_loader:
@@ -50,6 +53,10 @@ for epoch in range(num_epochs):
         validation_loss /= len(val_loader)
     
     print(f'Epoch {epoch+1}, Validation Loss: {validation_loss}')
+
+    epoch_enum.append(epoch+1)
+    validation_errors.append(validation_loss)
+    
     scheduler.step(validation_loss)  # Adjust learning rate
 
     # Early stopping logic
@@ -81,10 +88,11 @@ def to_string_predictions(tensor):
     print("position:", tensor[9])
 
 def to_string_other(tensor):
-    print("reb:",tensor[0])
+    print("points:",tensor[0])
     print("assist:",tensor[1])
-    print("points:",tensor[2])
-    
+    print("reb:",tensor[2])
+
+#evaluating the model 
 model.eval()
 all_predictions = []
 all_input  = []
@@ -96,6 +104,9 @@ with torch.no_grad():
         all_input.append(inputs.cpu().numpy())
         all_correct.append(correct.cpu().numpy())
 
+pts_preds, pts_labels = [], []
+assist_preds, assist_labels = [], []
+reb_preds, reb_labels = [], []
 for i in range(len(all_predictions)):
     print("input")
     for j in all_input[i]:
@@ -103,8 +114,14 @@ for i in range(len(all_predictions)):
     print("predicted")
     for j in all_predictions[i]:
         to_string_other(j)
+        pts_preds.append(j[0])
+        assist_preds.append(j[1])
+        reb_preds.append(j[2])
     print("actual")
     for j in all_correct[i]:
         to_string_other(j)
+        pts_labels.append(j[0])
+        assist_labels.append(j[1])
+        reb_labels.append(j[2])
 
 print("Predictions (unnormalized):", all_predictions)
