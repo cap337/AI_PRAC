@@ -3,4 +3,6 @@ NumPy==1.26.4
 Torch==2.2.0
 Scikit-learn==1.4.2
 matplotlib==3.9.0
+Flask==3.0.3
+nba_api==1.4.1
 
