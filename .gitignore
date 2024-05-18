@@ -1,6 +1,8 @@
 myenv/
 # Ignore Player_Totals.csv
 
+venv
+#Ignore virtual environment
 
 # Ignore the __pycache__ directory
 __pycache__/
