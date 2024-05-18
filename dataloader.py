@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.utils.data import TensorDataset, DataLoader
 
-def create_dataloader(features_np,labels_np,batch_size=10):
+def create_dataloader(features_np,labels_np,batch_size=1):
     # Convert NumPy arrays to PyTorch tensors
     features = torch.tensor(features_np, dtype=torch.float32)
     labels = torch.tensor(labels_np, dtype=torch.float32)

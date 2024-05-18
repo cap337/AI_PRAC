@@ -15,7 +15,10 @@ def extract_features_and_labels(csv_file_info, csv_file_stats):
     data = data.dropna()
     data = data.sort_values(by=['player', 'season'])
 
+
+
     grouped = data.groupby('player')
+    
     input_rows = []
     output_rows = []
 
@@ -29,8 +32,10 @@ def extract_features_and_labels(csv_file_info, csv_file_stats):
     output_rows_df = pd.DataFrame(output_rows)
 
     # additional feature selection (dropping more columns)
-    input_rows_df = input_rows_df.drop(columns=['player','birth_year','tm', 'draft_number', 'birthdate'])
-    output_rows_df = output_rows_df.drop(columns=['player','birth_year','tm', 'draft_number', 'birthdate'])
+    input_rows_df = input_rows_df.drop(columns=['player','birth_year','tm', 'draft_number', 'birthdate',"fg","fga","season","mp","gs","x3p" ,"x3pa", "x3p_percent", "x2p", "x2pa", "x2p_percent", "x2p_percent", "e_fg_percent", "ft", "fta" , "ft_percent" ,  "orb", "drb","stl","blk","tov","pf"])
+    output_rows_df = output_rows_df.drop(columns=['player','birth_year','tm', 'draft_number', 'birthdate',"fg","fga","season","mp","gs","x3p", "x3pa", "x3p_percent" , "x2p", "x2pa", "x2p_percent", "x2p_percent", "e_fg_percent", "ft", "fta" , "ft_percent" ,  "orb", "drb","stl","blk","tov","pf" , "age" , "experience"   ,"fg_percent" ,"weight" ,"position"])
+
+    print(output_rows_df)
 
     # converting hieght column to inches 
     def height_to_inches(height_str):
@@ -61,8 +66,30 @@ def extract_features_and_labels(csv_file_info, csv_file_stats):
     int_columns = output_rows_df.select_dtypes(include=['int']).columns
     output_rows_df[int_columns] = output_rows_df[int_columns].astype(float)
 
+    output_rows_df = output_rows_df.drop(columns=["height"])
+
+
+
+
+    input_rows_df["pts"] = input_rows_df["pts"] /input_rows_df["g"]
+    input_rows_df["ast"] = input_rows_df["ast"] /input_rows_df["g"]
+    input_rows_df["trb"] = input_rows_df["trb"] /input_rows_df["g"]
+
+    output_rows_df["pts"] = output_rows_df["pts"] /output_rows_df["g"]
+    output_rows_df["ast"] = output_rows_df["ast"] /output_rows_df["g"]
+    output_rows_df["trb"] = output_rows_df["trb"] /output_rows_df["g"]
+    output_rows_df = output_rows_df.drop(columns=["g"])
+
+
+    
     input_rows_array = input_rows_df.to_numpy()
     output_rows_array = output_rows_df.to_numpy()
 
+    
 
+    print(input_rows_df)
+    print(output_rows_df)
     return input_rows_array, output_rows_array
+
+
+extract_features_and_labels("common_player_info.csv","Player_Totals.csv")

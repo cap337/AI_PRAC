@@ -1,1 +1,12 @@
 myenv/
+# Ignore Player_Totals.csv
+Player_Totals.csv
+
+# Ignore the __pycache__ directory
+__pycache__/
+
+# Ignore best_model.pth
+best_model.pth
+
+# Ignore model.pth
+model.pth
