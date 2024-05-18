@@ -27,30 +27,28 @@ def dict_to_tensor(info):
     ast = float(info['ast'])
     pts = float(info['pts'])
     
-    # Assuming height is in the format "feet-inches" (e.g., "6-5")
+
    
     height = height_to_inches(info["height"])
     weight = float(info['weight'])
     
-    # Assuming position is a string that needs to be converted to a numeric value
-    # You can define a mapping for positions
     position_mapping = {
         "Guard": 4.0,
         "Forward": 1.0,
         "Center": 0.0,
-        # Add other positions as needed
+  
     }
-    position = position_mapping.get(info['position'], 0.0)  # Default to 0.0 if position is not found
+    position = position_mapping.get(info['position'], 0.0)
 
-    # Creating a list of the values
+
     values = [age, experience, games, fg_percent, trb, ast, pts, height, weight, position]
     
-    # Converting the list to a tensor
+ 
     tensor = torch.tensor(values, dtype=torch.float32)
     
     return tensor
 
-# Example usage
+
 
 
 
@@ -77,21 +75,23 @@ def get_player_stats(name, year):
     common_headers = common["resultSets"][0]["headers"]
     common_row = common["resultSets"][0]["rowSet"][0]
 
-
+    if (not row):
+        return None
+    
     info ={
  'age': row[headers.index('PLAYER_AGE')],
             'experience': str(int(row[headers.index('SEASON_ID')].split("-")[0]) - int(common_row[common_headers.index("DRAFT_YEAR")]) + 1),
             'g': row[headers.index('GP')],
             'fg_percent': row[headers.index('FG_PCT')],
-            'trb': row[headers.index('REB')],  # Per game
-            'ast': row[headers.index('AST')],  # Per game
-            'pts': row[headers.index('PTS')],   # Per game
-            'height': common_row[common_headers.index("HEIGHT")],  # Placeholder, adjust if you have height data
-            'weight': common_row[common_headers.index("WEIGHT")],  # Placeholder, adjust if you have weight data
-            'position': common_row[common_headers.index("POSITION")]  # Placeholder, adjust if you have position data
+            'trb': row[headers.index('REB')], 
+            'ast': row[headers.index('AST')], 
+            'pts': row[headers.index('PTS')],   
+            'height': common_row[common_headers.index("HEIGHT")],
+            'weight': common_row[common_headers.index("WEIGHT")], 
+            'position': common_row[common_headers.index("POSITION")] 
         }
 
-    return dict_to_tensor(info)
+    return dict_to_tensor(info),info
 
 
 

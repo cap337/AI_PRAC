@@ -11,7 +11,3 @@ best_model.pth
 # Ignore model.pth
 model.pth
 
-app.py
-main.py
-static/
-templates/

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NBA Player Stats Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>NBA Player Stats Prediction</h1>
+        <form action="/predict" method="get">
+            <input type="text" id="player_name" name="player_name" placeholder="Enter player name">
+            <button type="submit"> predict </button>
+        </form>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        $(function() {
+            $("#player_name").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/autocomplete",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+            });
+        });
+    </script>
+</body>
+</html>

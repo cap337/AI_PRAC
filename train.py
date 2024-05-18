@@ -1,14 +1,14 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from our_model import OurModel, DeepNetworkWithModerateLayers, ShallowNetworkWithWideLayers, DeepNetworkWithBatchNormalization, ResidualNetwork, WideNetworkWithDropout
+from our_model import OurModel
 from dataloader import create_dataloader
 from data_extractor import extract_features_and_labels
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 
-# Initialize the model, dataloaders, and data
+
 model = OurModel()
 input, output = extract_features_and_labels("common_player_info.csv", "Player_Totals.csv")
 input_train, input_test, output_train, output_test = train_test_split(input, output, test_size=0.20, random_state=42)
@@ -20,7 +20,7 @@ test_loader = create_dataloader(input_test,output_test)
 
 # Loss function and optimizer
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.00005, weight_decay=0.01)
 #optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 # Scheduler and Early Stopping settings
@@ -63,7 +63,6 @@ for epoch in range(num_epochs):
             print("Stopping early due to no improvement")
             break
 
-# Optionally, load the best model back at the end of training if needed
 model.load_state_dict(torch.load('best_model.pth'))
 
 

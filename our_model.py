@@ -16,7 +16,7 @@ class OurModel(nn.Module):
         self.bn4 = nn.BatchNorm1d(62)
 
         self.output_layer = nn.Linear(10, 3)
-        self.dropout = nn.Dropout(p=0.01)  # Dropout rate
+        self.dropout = nn.Dropout(p=0.005)  # Dropout rate
     
     def forward(self, x):
         x = self.input_layer(x)
