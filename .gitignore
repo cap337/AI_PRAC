@@ -1,6 +1,6 @@
 myenv/
 # Ignore Player_Totals.csv
-Player_Totals.csv
+
 
 # Ignore the __pycache__ directory
 __pycache__/
@@ -10,3 +10,8 @@ best_model.pth
 
 # Ignore model.pth
 model.pth
+
+app.py
+main.py
+static/
+templates/
